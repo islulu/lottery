@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: lottery
   profiles:
     active: dev
   datasource:
@@ -17,15 +15,9 @@ spring:
     #最小生存时间
     minEvictableIdleTimeMillis: 300000
     testSql: SELECT 'x' FROM DUAL
-
   redis:
     host: 192.168.9.52
     port: 5158
     password: greentown@123456
     timeout: 2000ms
     database: 0
-
-logging:
-  file: logs/${spring.application.name}/${spring.application.name}.log
-  pattern:
-    file: '%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n'

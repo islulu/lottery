@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: lottery
   profiles:
     active: prod
   datasource:
@@ -17,7 +15,6 @@ spring:
     #最小生存时间
     minEvictableIdleTimeMillis: 300000
     testSql: SELECT 'x' FROM DUAL
-
   redis:
     host: 192.168.9.52
     port: 5158
