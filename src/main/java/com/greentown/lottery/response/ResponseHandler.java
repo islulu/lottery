@@ -1,17 +1,18 @@
 package com.greentown.lottery.response;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.greentown.common.constants.ExceptionConstants;
 import com.greentown.common.constants.ExceptionConstants.ResultEnums;
-import com.greentown.common.constants.GlobalConstants;
 import com.greentown.common.exception.BusinessLogicException;
 import com.greentown.common.response.AppResponseEntity;
 import com.greentown.common.web.CustomHttpHeaderUtil;
-import com.greentown.common.web.JsonpFastJsonHttpMessageConverter;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -22,8 +23,6 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
-import org.springframework.http.server.ServletServerHttpRequest;
-import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -42,7 +41,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -64,6 +62,9 @@ public class ResponseHandler implements ResponseBodyAdvice<Object> {
 	 * 这里定义的是需要返回详细错误的异常
 	 */
 	private Map<String, ResultEnums> exceptionMappings = new HashMap<>();
+
+	@Autowired
+	ObjectMapper objectMapper;
 
 	@PostConstruct
 	private void initExceptionMappings() {
@@ -131,7 +132,7 @@ public class ResponseHandler implements ResponseBodyAdvice<Object> {
 
 	@Override
 	public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-		return true;
+		return returnType.getMethod().getReturnType() != AppResponseEntity.class;
 	}
 
 	/**
@@ -147,16 +148,17 @@ public class ResponseHandler implements ResponseBodyAdvice<Object> {
 	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
                                   ServerHttpResponse response) {
-
-		AppResponseEntity portalResponseEntity = new AppResponseEntity(body);
-
-		HttpServletRequest servletRequest = ((ServletServerHttpRequest) request).getServletRequest();
-		response.getHeaders().setContentType(new MediaType("application", "javascript"));
-
-		HttpServletResponse servletResponse = ((ServletServerHttpResponse) response).getServletResponse();
-		CustomHttpHeaderUtil.setResultCode(servletResponse, String.valueOf(portalResponseEntity.getErrorCode()));
-		CustomHttpHeaderUtil.setSerialnum(servletResponse, CustomHttpHeaderUtil.getSerialnum(servletRequest));
-
-		return portalResponseEntity;
+		if(body instanceof String){
+			try {
+				response.getHeaders().setContentType(MediaType.parseMediaType(MediaType.APPLICATION_JSON_VALUE));
+				return objectMapper.writeValueAsString(new AppResponseEntity(body));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		}
+		if (body instanceof AppResponseEntity) {
+			return body;
+		}
+		return new AppResponseEntity(body);
 	}
 }

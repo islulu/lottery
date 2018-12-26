@@ -38,7 +38,7 @@ public class OneController {
 
     @LogAnnotation
     @ApiOperation("mysqlTest")
-    @GetMapping(value = "/redisTest", produces = "application/json;charset=UTF-8")
+    @GetMapping(value = "/redisTest")
     public String redisTest() {
         try {
             // 缓存有效期2秒
