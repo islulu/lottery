@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: lottery
+  profiles:
+    active: prod
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.9.52:4460/ioc?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+    username: root
+    password: Greentown@123
+    initialSize: 10
+    minIdle: 10
+    maxActive: 50
+    maxWait: 60000
+    #自动检测关闭和空闲连接的间隔
+    timeBetweenEvictionRunsMillis: 60000
+    #最小生存时间
+    minEvictableIdleTimeMillis: 300000
+    testSql: SELECT 'x' FROM DUAL
+
+  redis:
+    host: 192.168.9.52
+    port: 5158
+    password: greentown@123456
+    timeout: 2000ms
+    database: 0
