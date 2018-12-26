@@ -24,6 +24,8 @@ public class OneController {
 
     @Resource
     private OneService oneService;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @LogAnnotation
     @ApiOperation("mysqlTest")
@@ -31,10 +33,6 @@ public class OneController {
     public Integer mysqlTest(){
         return oneService.getOne();
     }
-
-
-    @Autowired
-    private RedisTemplate redisTemplate;
 
     @LogAnnotation
     @ApiOperation("mysqlTest")

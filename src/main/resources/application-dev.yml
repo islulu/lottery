@@ -24,3 +24,8 @@ spring:
     password: greentown@123456
     timeout: 2000ms
     database: 0
+
+logging:
+  file: logs/${spring.application.name}/${spring.application.name}.log
+  pattern:
+    file: '%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n'
