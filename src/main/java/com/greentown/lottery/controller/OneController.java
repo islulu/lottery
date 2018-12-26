@@ -26,16 +26,19 @@ public class OneController {
     private OneService oneService;
 
     @LogAnnotation
-    @ApiOperation("one")
+    @ApiOperation("mysqlTest")
     @GetMapping("/mysqlTest")
     public Integer mysqlTest(){
         return oneService.getOne();
     }
 
+
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @RequestMapping("/redisTest")
+    @LogAnnotation
+    @ApiOperation("mysqlTest")
+    @GetMapping(value = "/redisTest", produces = "application/json;charset=UTF-8")
     public String redisTest() {
         try {
             // 缓存有效期2秒

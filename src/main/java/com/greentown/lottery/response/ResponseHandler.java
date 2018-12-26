@@ -68,7 +68,6 @@ public class ResponseHandler implements ResponseBodyAdvice<Object> {
 	@PostConstruct
 	private void initExceptionMappings() {
 		// Springmvc的一些异常
-
 		exceptionMappings.put(HttpRequestMethodNotSupportedException.class.getName(),
 				ExceptionConstants.SYSTEM_HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION);
 		exceptionMappings.put(HttpMediaTypeNotSupportedException.class.getName(),
@@ -151,12 +150,12 @@ public class ResponseHandler implements ResponseBodyAdvice<Object> {
 
 		AppResponseEntity portalResponseEntity = new AppResponseEntity(body);
 
-//		HttpServletRequest servletRequest = ((ServletServerHttpRequest) request).getServletRequest();
-//		response.getHeaders().setContentType(new MediaType("application", "javascript"));
-//
-//		HttpServletResponse servletResponse = ((ServletServerHttpResponse) response).getServletResponse();
-//		CustomHttpHeaderUtil.setResultCode(servletResponse, String.valueOf(portalResponseEntity.getErrorCode()));
-//		CustomHttpHeaderUtil.setSerialnum(servletResponse, CustomHttpHeaderUtil.getSerialnum(servletRequest));
+		HttpServletRequest servletRequest = ((ServletServerHttpRequest) request).getServletRequest();
+		response.getHeaders().setContentType(new MediaType("application", "javascript"));
+
+		HttpServletResponse servletResponse = ((ServletServerHttpResponse) response).getServletResponse();
+		CustomHttpHeaderUtil.setResultCode(servletResponse, String.valueOf(portalResponseEntity.getErrorCode()));
+		CustomHttpHeaderUtil.setSerialnum(servletResponse, CustomHttpHeaderUtil.getSerialnum(servletRequest));
 
 		return portalResponseEntity;
 	}

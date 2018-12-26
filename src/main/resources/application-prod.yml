@@ -23,9 +23,5 @@ spring:
     port: 5158
     password: greentown@123456
     timeout: 2000ms
-    db: 0
-    maxActive: 100
-    maxIdle: 20
-    minIdle: 10
-    maxWait: 3000
+    database: 0
 

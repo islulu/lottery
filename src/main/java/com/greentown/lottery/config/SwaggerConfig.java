@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import com.google.common.base.Predicate;
 
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -19,7 +20,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * 
- * @author hueb
+ * @author jairy
  *
  */
 @Configuration
@@ -29,9 +30,10 @@ public class SwaggerConfig {
 	public String applicationName;
 
 	@Bean
-	public Docket postsApi() {
-		return new Docket(DocumentationType.SWAGGER_2).groupName(applicationName).select()
-				.apis(RequestHandlerSelectors.basePackage("com.greentown.lottery.lottery.controller")).paths(postPaths()).build()
+	public Docket createRestApi() {
+		return new Docket(DocumentationType.SWAGGER_2).select()
+				.apis(RequestHandlerSelectors.basePackage("com.greentown.lottery.controller"))
+				.paths(postPaths()).build()
 				.apiInfo(apiInfo());
 	}
 

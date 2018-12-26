@@ -95,11 +95,6 @@
             <artifactId>common</artifactId>
             <version>0.0.1</version>
         </dependency>
-        <dependency>
-            <groupId>com.greentown</groupId>
-            <artifactId>lottery</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
 
         <dependency>
             <groupId>io.springfox</groupId>
@@ -116,7 +111,6 @@
             <artifactId>mapper</artifactId>
             <version>${tk.mapper.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>

@@ -28,7 +28,7 @@ public class MybatisConfigurer {
     public SqlSessionFactory sqlSessionFactoryBean() throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setTypeAliasesPackage("com.greentown.lottery.model.dto");
+        bean.setTypeAliasesPackage("com.greentown.lottery.dto");
  
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         bean.setMapperLocations(resolver.getResources("classpath*:sqlMappers/**/*Mapper.xml"));
